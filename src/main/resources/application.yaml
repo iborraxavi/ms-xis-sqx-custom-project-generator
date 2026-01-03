@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: xis-sqx-custom-project-generator
