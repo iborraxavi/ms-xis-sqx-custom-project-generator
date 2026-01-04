@@ -1,3 +1,14 @@
 spring:
   application:
     name: xis-sqx-custom-project-generator
+
+  datasource:
+    url: jdbc:sqlite:C:\SQX_142_win_20250327\user\data\data.db
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: none
+
+server:
+  port: 8082
