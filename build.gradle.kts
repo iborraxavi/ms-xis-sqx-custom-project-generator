@@ -46,8 +46,8 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
 
     // Instancio
-    testImplementation("org.instancio:instancio-junit:3.6.0")
-    testImplementation("org.instancio:instancio-core:3.6.0")
+    testImplementation("org.instancio:instancio-junit:5.5.1")
+    testImplementation("org.instancio:instancio-core:5.5.1")
 
     // Assertj
     testImplementation("org.assertj:assertj-core:3.24.2")

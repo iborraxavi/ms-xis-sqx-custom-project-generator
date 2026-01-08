@@ -25,6 +25,8 @@ import org.springframework.test.web.servlet.MockMvc;
 class DataManagerControllerITTest {
 
   private static final String DATA_MANAGER_LIST_PATH = "/api/data-manager/v1/data";
+  private static final String DATA_MANAGER_FIND_BY_SYMBOL_NAME_PATH =
+      DATA_MANAGER_LIST_PATH.concat("/%s");
 
   @Autowired private MockMvc mockMvc;
 
@@ -39,13 +41,10 @@ class DataManagerControllerITTest {
         .andExpect(jsonPath("$", hasSize(3)))
         .andExpect(jsonPath("$[0].id").value(1))
         .andExpect(jsonPath("$[0].symbol").value("Symbol 01"))
-        .andExpect(jsonPath("$[0].instrument").value("Instrument 01"))
         .andExpect(jsonPath("$[1].id").value(2))
         .andExpect(jsonPath("$[1].symbol").value("Symbol 02"))
-        .andExpect(jsonPath("$[1].instrument").value("Instrument 02"))
         .andExpect(jsonPath("$[2].id").value(3))
-        .andExpect(jsonPath("$[2].symbol").value("Symbol 03"))
-        .andExpect(jsonPath("$[2].instrument").value("Instrument 03"));
+        .andExpect(jsonPath("$[2].symbol").value("Symbol 03"));
   }
 
   @Test
@@ -60,5 +59,29 @@ class DataManagerControllerITTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$", hasSize(0)));
+  }
+
+  @Test
+  void getDataBySymbolName_whenExistData_shouldReturnExpectedRecord() throws Exception {
+    final String symbolName = "Symbol 02";
+
+    mockMvc
+        .perform(get(DATA_MANAGER_FIND_BY_SYMBOL_NAME_PATH.formatted(symbolName)))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.id").value(2))
+        .andExpect(jsonPath("$.symbol").value(symbolName))
+        .andExpect(jsonPath("$.dateFrom").value(1141948800000L))
+        .andExpect(jsonPath("$.dateTo").value(1758671940000L))
+        .andExpect(jsonPath("$.instrument.instrument").value("Instrument 02"));
+  }
+
+  @Test
+  void getDataBySymbolName_whenNonExistData_shouldReturnExpectedError() throws Exception {
+    final String symbolName = "NonExistingSymbolName";
+
+    mockMvc
+        .perform(get(DATA_MANAGER_FIND_BY_SYMBOL_NAME_PATH.formatted(symbolName)))
+        .andExpect(status().isNotFound());
   }
 }

@@ -1,1 +1,1 @@
-rootProject.name = "xis-sqx-custom-project-generator"
+rootProject.name = "ms-xis-sqx-custom-project-generator"

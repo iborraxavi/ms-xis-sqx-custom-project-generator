@@ -13,9 +13,9 @@ public class ListDataService {
 
   private final DataManagerRepository dataManagerRepository;
 
-  public List<DataRegistryResponse> listData() {
+  public List<DataRegistryListItemResponse> listData() {
     return dataManagerRepository.listData().stream()
-        .map(listDataMapper::dataRegistryToDataRegistryResponse)
+        .map(listDataMapper::dataRegistryListItemToDataRegistryResponse)
         .toList();
   }
 }
